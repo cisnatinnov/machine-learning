@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Speech to Text</title>
+  </head>
+  <body>
+    <h1>Speech to Text</h1>
+    <button id="start-btn">Start</button>
+    <button id="stop-btn">Stop</button>
+    <div id="output"></div>
+    <div id="replay"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io()
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+
+      const output = document.querySelector("#output");
+      const startBtn = document.querySelector("#start-btn");
+      const stopBtn = document.querySelector("#stop-btn");
+      const reply = document.querySelector("#replay");
+
+      recognition.continuous = true;
+
+      startBtn.addEventListener("click", () => {
+        recognition.start();
+      });
+
+      stopBtn.addEventListener("click", () => {
+        recognition.stop();
+      });
+
+      recognition.addEventListener("result", (event) => {
+        const transcript = Array.from(event.results)
+          .map((result) => result[0].transcript)
+          .join("");
+
+        output.textContent = transcript;
+        socket.emit("sendMessage", transcript, (error) => {
+          if (error) {
+            reply.textContent = error
+          }
+          socket.on("message", (msg) => {
+            reply.textContent = msg
+          })
+          console.log('Message delivered!')
+        })
+      });
+    </script>
+  </body>
+</html>

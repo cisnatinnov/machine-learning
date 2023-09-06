@@ -1,0 +1,62 @@
+<html>
+<head>
+   <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+</head>
+<body>
+   <h2>Creating the <i> Image classifier </i> using the ml5.js in JavaScript.</h2>
+   <h4 id = "content"> Wait until model loads. </h4>
+   <form enctype="multipart/form-data" method="post">
+      <input type = "file" name = "Image" id = "upload_image" accept = "jpg,jpeg,png">
+      <br> <br>
+      <img src = "" class = "image" id = "show_image" width = "300px" height = "300px">
+      <br>
+   </form>
+   <button class = "button" id = "triggerClassify"> Classify the image </button>
+   <br>
+   <h2 id = "output"> </h2>
+   <script>
+      window.onload = function () {
+         // access all HTML elements and image classifier
+         const image_classifier = ml5.imageClassifier("MobileNet", modelLoaded);
+         const triggerClassify = document.getElementById("triggerClassify");
+         const upload_image = document.getElementById("upload_image");
+         const show_image = document.getElementById("show_image");
+         const output = document.getElementById("output");
+         
+         // when the model is loaded, show the message
+         function modelLoaded() {
+            let content = document.getElementById("content");
+            content.innerText = "Model is loaded! Now, test it by uploading the image.";
+         }
+         
+         // When the user uploads the image, show it on the screen
+         upload_image.onchange = function () {
+            if (this.files && this.files[0]) {
+            
+               // using FileReader to read the image
+               var reader = new FileReader();
+               reader.onload = function (e) {
+                  show_image.src = e.target.result;
+               };
+               reader.readAsDataURL(this.files[0]);
+            }
+         };
+         
+         // classify the image when the user clicks the button
+         triggerClassify.onclick = function (e) {
+         
+            // predict the image using the model
+            image_classifier.predict(show_image, function (err, outputs) {
+               if (err) {
+                  return err;
+               } else {
+               
+                  // show the output
+                  output.innerText = outputs[0].label;
+               }
+            });
+         };
+      }
+   </script>
+</body>
+</html>
