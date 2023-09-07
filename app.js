@@ -12,15 +12,15 @@ app.use(express.static(__dirname + '/public')); // js, css, images
 const routes = require('./routes');
 
 app.get('/clock', (_req, res) => {
-  res.render('clock')
+  res.render('Clock')
 })
 
 app.get('/voice', (_req, res) => {
-  res.render('voice')
+  res.render('index', { title: "Speech to Text", page: "AI/voice" })
 })
 
 app.get('/classification', (_req, res) => {
-  res.render('classification')
+  res.render('index', { title: "Image Classification", page: "AI/classification" })
 })
 
 Object.keys(routes).forEach((route) => {
