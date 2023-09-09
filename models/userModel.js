@@ -146,7 +146,7 @@ const create = (req, res, data) => {
                     queryUserInsert = query.insert('tb_r_user_person', insertUserPerson, 'user_person_id')
                     PostgreSQL.query(queryUserInsert, (errInsertUser, resultInsertUser) => {
                       if (errInsert) return response.error(res, errInsertUser)
-                      transporter.sendMail(mailOptions, (err, info) => {
+                      transporter.sendMail(mailOptions, (err) => {
                         if (err) return response.error(res, err)
                         objResponse = Object.assign(objResponse, { user_person_id: resultInsertUser.rows[0].user_person_id, info: 'OTP has been sent to your email' })
                         response.created(res, 'User successfuly inserted', objResponse)                        
