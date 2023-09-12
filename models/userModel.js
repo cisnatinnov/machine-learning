@@ -3,20 +3,8 @@ const query = require('../middlewares/query')
 const { genBcript, validateEmail, validPassword, otp } = require('../middlewares/security')
 const { unix } = require('../middlewares/dateFormat')
 const { PostgreSQL } = require('../configs/connection')
+const { send } = require('../middlewares/sendEmail')
 const uuid = require("uuid").v4
-var nodemailer = require('nodemailer');
-
-require('dotenv').config()
-
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  host: 'smtp.gmail.com',
-  port: 587,
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD
-  }
-});
 
 const read = (res, param, condition, join) => {
   try {
@@ -71,7 +59,7 @@ const create = (req, res, data) => {
     if (!validPassword(user.password)) {
       response.notAllowed(res, 'Please use minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 number and 1 special character!')
       return
-    }    
+    }   
     if (user.confirmPassword) {
       if (user.confirmPassword != user.password) {
         response.notAllowed(res, `Password didn't match`)
@@ -141,16 +129,14 @@ const create = (req, res, data) => {
                       subject: 'OTP',
                       text: `This is your one time password ${onetimepassword}`
                     };
+                    send(mailOptions)
                     let objResponse = { user: resultInsert.rows[0].user_id, person: resultInsertPerson.rows[0].person_id },
                     insertUserPerson = [{ user_person_id: uuid(), user_id: objResponse.user, person_id: objResponse.person, created_dt: unix(), created_by: created_by }],
                     queryUserInsert = query.insert('tb_r_user_person', insertUserPerson, 'user_person_id')
                     PostgreSQL.query(queryUserInsert, (errInsertUser, resultInsertUser) => {
                       if (errInsert) return response.error(res, errInsertUser)
-                      transporter.sendMail(mailOptions, (err) => {
-                        if (err) return response.error(res, err)
-                        objResponse = Object.assign(objResponse, { user_person_id: resultInsertUser.rows[0].user_person_id, info: 'OTP has been sent to your email' })
-                        response.created(res, 'User successfuly inserted', objResponse)                        
-                      })
+                      objResponse = Object.assign(objResponse, { user_person_id: resultInsertUser.rows[0].user_person_id, info: 'OTP has been sent to your email' })
+                      response.created(res, 'User successfuly inserted', objResponse)
                     })
                   })
                 })
