@@ -60,6 +60,8 @@ io.on("connection", (socket) => {
   })
 })
 
+global.__basedir = __dirname;
+
 server.listen(port, () => {
   console.log(`http://127.0.0.1:${port}`)
 })
