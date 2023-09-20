@@ -16,11 +16,19 @@ app.get('/clock', (_req, res) => {
 })
 
 app.get('/voice', (_req, res) => {
-  res.render('index', { title: "Speech to Text", page: "AI/voice" })
+  res.render('index', { title: "Speech to Text", page: "machine-learning/voice" })
 })
 
 app.get('/classification', (_req, res) => {
-  res.render('index', { title: "Image Classification", page: "AI/classification" })
+  res.render('index', { title: "Image Classification", page: "machine-learning/classification" })
+})
+
+app.get('/', (_req, res) => {
+  res.render('index', { title: "Home", page: "home" })
+})
+
+app.get('/login', (_req, res) => {
+  res.render('login')
 })
 
 Object.keys(routes).forEach((route) => {

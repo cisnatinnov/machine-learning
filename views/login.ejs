@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div class="login_box" id="login">
+      <p class="login_first">Silahkan login</p>
+      <p v-if="isValid" style="color: green;">{{ message }}</p>
+      <p v-if="!isValid" style="color: red;">{{ message }}</p>
+      <label>Email</label>
+      <input type="email" class="login_form" v-model="user.email">
+      <label>Password</label>
+      <input type="password" class="login_form" v-model="user.password"><br>
+      <input type="submit" class="login_button" value="LOGIN" @click="login">
+    </div>  
+  </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/js/lodash.js"></script>
+  <script src="/js/vue.js"></script>
+  <script>
+    var login = new Vue({
+      el: '#login',
+      data: {
+        user: {},
+        result: '',
+        message: '',
+        isValid: false
+      },
+      watch: {
+        user:{
+          immediate: true,
+          deep: true,
+          handler(nv) {
+            let vm = this;
+            if (!_.isEmpty(nv)) {
+              vm.message = 'Email valid';
+              vm.isValid = true;
+              if (!vm.emailValidate(nv.email)) {
+                vm.message = 'Email tidak valid';
+                vm.isValid = false;
+              }
+            }
+          }
+        }
+      },
+      methods: {
+        emailValidate(email) {
+          var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(email);
+        },
+        login() {
+          let vm = this, data = {
+            user: vm.user
+          }
+          if (!vm.emailValidate(vm.user.email)) {
+            vm.message = 'Email tidak valid';
+            vm.isValid = false;
+            return false;
+          }
+          axios.post('/login/signin', data).then((res) => {
+            vm.result = res.data.result;
+            if (vm.result=='error') vm.message = res.data.message;
+            else {
+              vm.message = res.data.message;
+              location.replace('/');
+            }
+          })
+          .catch((error) => {
+            // handle error
+            console.log(error);
+          })
+        }
+      },
+    })
+  </script>
+</html>
