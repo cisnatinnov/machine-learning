@@ -162,24 +162,26 @@ const setWithExpiry = (key, value) => {
 }
 
 const getWithExpiry = (key) => {
-	const itemStr = localStorage.getItem(key)
-	// if the item doesn't exist, return null
-	if (!itemStr) {
-		return null
-	}
-	const item = JSON.parse(itemStr)
-	const now = new Date()
-  const expired = now.getHours()
-  const expiry = item.expiry+8
-  console.log(expired, expiry)
-	// compare the expiry time of the item with the current time
-	if (expired > expiry) {
-		// If the item is expired, delete the item from storage
-		// and return null
-		localStorage.removeItem(key)
-		return null
-	}
-	return item.value
+  try {
+    const itemStr = localStorage.getItem(key)
+    
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+    const expired = now.getHours()
+    const expiry = item.expiry+8
+    console.log(expired, expiry)
+    // compare the expiry time of the item with the current time
+    if (expired > expiry) {
+      // If the item is expired, delete the item from storage
+      // and return null
+      localStorage.removeItem(key)
+      return null
+    }
+    return item.value
+  } catch (error) {
+    console.log(error)
+    return null
+  }
 }
 
 module.exports = {
