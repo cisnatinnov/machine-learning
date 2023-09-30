@@ -26,6 +26,7 @@
       el: '#login',
       data: {
         email: '',
+        password: '',
         result: '',
         message: '',
         isValid: false
@@ -69,7 +70,7 @@
         },
         passwordValidate(password) {
           var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-          return res.test(password);
+          return re.test(password);
         },
         login() {
           let vm = this, data = {
@@ -86,17 +87,23 @@
             vm.isValid = false;
             return false;
           }
-          axios.post('/auth/checkPassword', data).then((res) => {
+          axios.post('/api/v1/auth/checkPassword', data).then((res) => {
             vm.result = res.data.result;
             if (vm.result=='error') vm.message = res.data.message;
             else {
               vm.message = res.data.message;
-              location.replace('/');
+              let data = res.data.data;
+              localStorage.setItem('user_id', data.user_id)
+              localStorage.setItem('email', data.email)
+              localStorage.setItem('password', data.password)
+              localStorage.setItem('username', data.username)
+              localStorage.setItem('token', data.token)
+              location.replace("/")
             }
           })
           .catch((error) => {
             // handle error
-            console.log(error);
+          vm.message = error.response.data.message
           })
         }
       },

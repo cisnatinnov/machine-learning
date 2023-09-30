@@ -1,0 +1,68 @@
+<section class="content" id="imagegenerator">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="box">
+        <div class="box-body">
+					<label for="text">Text</label>
+          <input type="text" v-model="text" id="text" class="form-control">
+        </div>        
+        <div class="box-footer clearfix">
+          <div class="pull-right">
+            <button class="btn btn-primary" id="decode" @click="generate">
+              <i class="ion ion-image"></i>
+              Generate
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="box">
+        <div class="box-header">
+          <h5 class="box-title">Image</h5>
+        </div>
+        <div class="box-body" v-if="valid">
+          <img :src="src">
+        </div>
+        <div class="box-footer clearfix">
+          <p v-if="valid" style="color: green;">{{message}}</p>
+          <p v-if="!valid" style="color: red;">{{message}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  var morse = new Vue({
+    el: '#imagegenerator',
+    data: {
+      text: ``,
+      src: ``,
+      message: ``,
+      valid: true
+    },
+    methods: {
+      generate() {
+        let vm = this
+        axios.post('api/v1/ai/text', { text: vm.text },
+        {
+          headers: {
+            Authorization : `Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        .then((res) => {
+          let data = res.data.data, message = res.data.message
+          vm.message = message
+          vm.valid = true
+          vm.src = data.image
+        })
+        .catch((error) => {
+          // handle error
+          vm.valid = false
+          vm.message = error.response.data.message
+        })
+      }
+    }
+  })
+</script>

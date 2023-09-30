@@ -1,6 +1,6 @@
 const response = require('../middlewares/response')
 const query = require('../middlewares/query')
-const { genJwt, compare, validateEmail, validPassword } = require('../middlewares/security')
+const { genJwt, compare, validateEmail, validPassword, setWithExpiry } = require('../middlewares/security')
 const { PostgreSQL } = require('../configs/connection')
 const jwt = require('jsonwebtoken');
 
@@ -58,6 +58,10 @@ const checkPassword = (res, data) => {
             let token = genJwt(user)
             let jwt_payload = {}
             if (token) {
+              setWithExpiry("user_id", user.user_id)
+              setWithExpiry("email", user.email)
+              setWithExpiry("password", user.password)
+              setWithExpiry("username", user.username)
               let param = { select: 'tb_m_users', select: 'email, status' }
               let condition = { email: data.email }
               let join = []

@@ -1,6 +1,7 @@
 const cors = require('cors')
 const express = require('express')
 const app = express()
+const { getWithExpiry } = require('./middlewares/security')
 
 app.use(cors());
 
@@ -16,19 +17,37 @@ app.get('/clock', (_req, res) => {
 })
 
 app.get('/voice', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
   res.render('index', { title: "Speech to Text", page: "machine-learning/voice" })
 })
 
+app.get('/tomorse', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
+  res.render('index', { title: "Text to morse", page: "machine-learning/tomorse" })
+})
+
+app.get('/morse', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
+  res.render('index', { title: "Morse to text", page: "machine-learning/morse" })
+})
+
 app.get('/classification', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
   res.render('index', { title: "Image Classification", page: "machine-learning/classification" })
 })
 
+app.get('/imagegenerator', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
+  res.render('index', { title: "Image Generator", page: "machine-learning/imagegenerator" })
+})
+
 app.get('/', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
   res.render('index', { title: "Home", page: "home" })
 })
 
 app.get('/login', (_req, res) => {
-  res.render('login')
+  res.render('login', { title: "Login" })
 })
 
 Object.keys(routes).forEach((route) => {

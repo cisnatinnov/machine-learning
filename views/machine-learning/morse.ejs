@@ -1,0 +1,66 @@
+<section class="content" id="morse">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="box">
+        <div class="box-body">
+					<label for="text">Morse</label>
+          <input type="text" v-model="text" id="text" class="form-control">
+        </div>
+        <div class="box-footer clearfix">
+          <div class="pull-right">
+            <button class="btn btn-primary" id="decode" @click="decrypt">
+              <i class="fa fa-unlock"></i>
+              Decode
+            </button>
+          </div>
+       </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="box">
+        <div class="box-body">
+					<label for="morse">Text</label>
+          <input type="text" v-model="morse" id="morse" class="form-control" disabled>
+        </div>
+        <div class="box-footer clearfix">
+          <p v-if="valid" style="color: green;">{{message}}</p>
+          <p v-if="!valid" style="color: red;">{{message}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  var morse = new Vue({
+    el: '#morse',
+    data: {
+      text: `.... . .-.. .-.. ---`,
+      morse: ``,
+      message: ``,
+      valid: true
+    },
+    methods: {
+      decrypt() {
+        let vm = this
+        axios.post('api/v1/ai/morse', { morse: vm.text },
+        {
+          headers: {
+            Authorization : `Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        .then((res) => {
+          let data = res.data.data, message = res.data.message
+          vm.message = message
+          vm.morse = data
+          vm.valid = true
+        })
+        .catch((error) => {
+          // handle error
+          vm.valid = false
+          vm.message = error.response.data.message
+        })
+      }
+    }
+  })
+</script>

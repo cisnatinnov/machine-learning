@@ -45,10 +45,10 @@ app.post('/text', celebrate({body: textSchema}), async (req, res) => {
     .createImage({
       prompt: text,
       n: 1,
-      size: "1024x1024",
+      size: "512x512",
     })
     .then((resp) => {
-      response.success(res, '', { image: resp.data.data[0].url})
+      response.success(res, 'Image generated successfuly', { image: resp.data.data[0].url})
     })
     .catch((e) => {
       console.log(e.message)

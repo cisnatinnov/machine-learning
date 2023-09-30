@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const response = require('./response')
 require('dotenv').config();
+var LocalStorage = require('node-localstorage').LocalStorage,
+localStorage = new LocalStorage('./scratch');
 
 const genBcript = (password) => {
   try {
@@ -145,7 +147,40 @@ const encodeMorse = (text) => {
     })
     .join(' ')
     .replace(/ +/g, ' ');
-} 
+}
+
+const setWithExpiry = (key, value) => {
+	const now = new Date()
+
+	// `item` is an object which contains the original value
+	// as well as the time when it's supposed to expire
+	const item = {
+		value: value,
+		expiry: now.getHours(),
+	}
+	localStorage.setItem(key, JSON.stringify(item))
+}
+
+const getWithExpiry = (key) => {
+	const itemStr = localStorage.getItem(key)
+	// if the item doesn't exist, return null
+	if (!itemStr) {
+		return null
+	}
+	const item = JSON.parse(itemStr)
+	const now = new Date()
+  const expired = now.getHours()
+  const expiry = item.expiry+8
+  console.log(expired, expiry)
+	// compare the expiry time of the item with the current time
+	if (expired > expiry) {
+		// If the item is expired, delete the item from storage
+		// and return null
+		localStorage.removeItem(key)
+		return null
+	}
+	return item.value
+}
 
 module.exports = {
   genBcript,
@@ -158,5 +193,7 @@ module.exports = {
   bin2hex,
   hex2bin,
   decodeMorse,
-  encodeMorse
+  encodeMorse,
+  setWithExpiry,
+  getWithExpiry
 }
