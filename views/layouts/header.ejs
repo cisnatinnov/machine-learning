@@ -56,7 +56,7 @@
 							<ul class="dropdown-menu">
 								<li class="user-footer">
 									<div class="pull-right">
-										<a href="/logout" class="btn btn-default btn-flat"><i class="fa fa-signout"></i> Sign out</a>
+										<a href="#" @click.prevent="logout" class="btn btn-default btn-flat"><i class="fa fa-signout"></i> Sign out</a>
 									</div>
 								</li>
 							</ul>
@@ -65,4 +65,17 @@
 				</div>
       </nav>
 		</header>
+		<script>
+			var logout = new Vue({
+				el: '#header',
+				methods: {
+					logout() {
+						axios.get('/logout').then(res => {
+							localStorage.clear()
+							location.replace('/login')
+						})
+					}
+				}
+			})
+		</script>
 		<!-- /header logo: style can be found in header.less -->

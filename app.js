@@ -4,6 +4,7 @@ const app = express()
 const { getWithExpiry } = require('./middlewares/security')
 var LocalStorage = require('node-localstorage').LocalStorage,
 localStorage = new LocalStorage('./scratch');
+const response = require("./middlewares/response")
 
 app.use(cors());
 
@@ -55,7 +56,7 @@ app.get('/login', (_req, res) => {
 
 app.get('/logout', (_req, res) => {
   localStorage.clear()
-  res.redirect('/login')
+  response.success(res, "Logout Successfully", {})  
 })
 
 Object.keys(routes).forEach((route) => {
