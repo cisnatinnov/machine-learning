@@ -2,6 +2,8 @@ const cors = require('cors')
 const express = require('express')
 const app = express()
 const { getWithExpiry } = require('./middlewares/security')
+var LocalStorage = require('node-localstorage').LocalStorage,
+localStorage = new LocalStorage('./scratch');
 
 app.use(cors());
 
@@ -48,6 +50,15 @@ app.get('/', (_req, res) => {
 
 app.get('/login', (_req, res) => {
   res.render('login', { title: "Login" })
+})
+
+
+app.get('/logout', (_req, res) => {
+  localStorage.removeItem('email')
+  localStorage.removeItem('password')
+  localStorage.removeItem('username')
+  localStorage.removeItem('user_id')
+  res.redirect('/login')
 })
 
 Object.keys(routes).forEach((route) => {

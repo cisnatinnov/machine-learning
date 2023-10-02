@@ -150,15 +150,20 @@ const encodeMorse = (text) => {
 }
 
 const setWithExpiry = (key, value) => {
-	const now = new Date()
-
 	// `item` is an object which contains the original value
 	// as well as the time when it's supposed to expire
 	const item = {
 		value: value,
-		expiry: now.getHours(),
+		expiry: Date.now(),
 	}
 	localStorage.setItem(key, JSON.stringify(item))
+}
+
+function moreThanOneDayAgo(now, date) {
+  const DAY = 1000 * 60 * 60 * 8;
+  const dayAgo = now - DAY;
+
+  return date < dayAgo;
 }
 
 const getWithExpiry = (key) => {
@@ -166,12 +171,12 @@ const getWithExpiry = (key) => {
     const itemStr = localStorage.getItem(key)
     
     const item = JSON.parse(itemStr)
-    const now = new Date()
-    const expired = now.getHours()
-    const expiry = item.expiry+8
-    console.log(expired, expiry)
+    const now = Date.now()
+    const expiry = item.expiry
+    const expired = moreThanOneDayAgo(now, expiry)
+    console.log(now, expiry)
     // compare the expiry time of the item with the current time
-    if (expired > expiry) {
+    if (expired) {
       // If the item is expired, delete the item from storage
       // and return null
       localStorage.removeItem(key)
