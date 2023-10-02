@@ -54,6 +54,10 @@
 								<span><i class="caret"></i></span>
 							</a>
 							<ul class="dropdown-menu">
+								<li class="user-header bg-light-blue">
+									<img src="/img/avatar04.png" class="img-circle" alt="User Image" />
+									<p>{{ username }}</p>
+								</li>
 								<li class="user-footer">
 									<div class="pull-right">
 										<a href="#" @click.prevent="logout" class="btn btn-default btn-flat"><i class="fa fa-signout"></i> Sign out</a>
@@ -68,6 +72,9 @@
 		<script>
 			var logout = new Vue({
 				el: '#header',
+				data: {
+					username: ``
+				},
 				methods: {
 					logout() {
 						axios.get('/logout').then(res => {
@@ -75,6 +82,9 @@
 							location.replace('/login')
 						})
 					}
+				},
+				mounted() {
+					this.username = localStorage.getItem('username')
 				}
 			})
 		</script>
