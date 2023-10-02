@@ -54,10 +54,7 @@ app.get('/login', (_req, res) => {
 
 
 app.get('/logout', (_req, res) => {
-  localStorage.removeItem('email')
-  localStorage.removeItem('password')
-  localStorage.removeItem('username')
-  localStorage.removeItem('user_id')
+  localStorage.clear()
   res.redirect('/login')
 })
 
