@@ -56,10 +56,14 @@
           let data = res.data.data
           vm.reply = data.class
           vm.sentiment = data.sentiment.toFixed(2)
-          if (vm.reply.includes("Negative"))
-            vm.valid=false
-          else
-            vm.valid=true
+          if (vm.sentiment < 0) {
+            vm.valid = false
+            vm.reply = "Negative Word"
+          }
+          if (vm.sentiment >= 0) {
+            vm.valid = true
+            vm.reply = "Positive Word"
+          }
         })
       }
     }

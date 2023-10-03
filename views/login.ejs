@@ -103,7 +103,8 @@
           })
           .catch((error) => {
             // handle error
-          vm.message = error.response.data.message
+            vm.isValid = false
+            vm.message = error.response.data.message
           })
         }
       },

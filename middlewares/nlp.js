@@ -5,9 +5,11 @@ Analyzer = natural.SentimentAnalyzer,
 stemmer = natural.PorterStemmer,
 analyzer = new Analyzer("English", stemmer, "afinn");
 
+let positive = ['happy', 'fun', 'love', 'good', 'hello']
+let negative = ['sad', 'bad', 'fuck', 'fuck you', 'hate', 'ass', 'asshole', 'ass hole']
 const classification = (text) => {
-  classifier.addDocument(['happy', 'fun', 'bad ass', 'love', 'good', 'hello'], 'Positive Word');
-  classifier.addDocument(['sad', 'bad', 'fuck', 'fuck you', 'hate'], 'Negative Word');
+  classifier.addDocument(positive, 'Positive Word');
+  classifier.addDocument(negative, 'Negative Word');
 
   classifier.train();
 
@@ -23,7 +25,10 @@ const phonetic_match = (wordA, wordB) => {
 
 const sentiment_analysis = (text) => {
   let arrText = text.split(' ')
-  return analyzer.getSentiment(arrText)
+  let sentiment = analyzer.getSentiment(arrText)
+  if (sentiment < 0) negative.push(text)
+  if (sentiment >= 0) positive.push(text)
+  return sentiment
 }
 
 module.exports = {
