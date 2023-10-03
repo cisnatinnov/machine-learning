@@ -7,6 +7,7 @@ const number = require('../middlewares/number')
 const security = require('../middlewares/security')
 
 const { inputSchema, numbersSchema, quadraticSchema, morseSchema, textSchema, hourSchema, switchSchema, switchVariableSchema } = require('../middlewares/schema');
+const { classification, sentiment_analysis } = require("../middlewares/nlp");
 
 require('dotenv').config()
 
@@ -134,6 +135,12 @@ app.post('/switchVariable', celebrate({body: switchVariableSchema}), (req, res) 
   a = c
 
   response.success(res, 'switch', { a: a, b: b })
+})
+
+app.post('/classification', (req, res) => {
+  let body = req.body, text = body.text
+
+  response.success(res, '', {class: classification(text), sentiment: sentiment_analysis(text)})
 })
 
 module.exports = app

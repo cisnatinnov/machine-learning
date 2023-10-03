@@ -34,6 +34,11 @@ app.get('/input', (_req, res) => {
   res.render('index', { title: "Text to Speech", page: "nlp/text" })
 })
 
+app.get('/classification', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
+  res.render('index', { title: "Text classification", page: "nlp/classification" })
+})
+
 app.get('/tomorse', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
   res.render('index', { title: "Text to morse", page: "nlp/tomorse" })

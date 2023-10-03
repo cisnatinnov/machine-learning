@@ -1,5 +1,5 @@
 <!-- Main content -->
-<section class="content" id="text">
+<section class="content" id="classification">
 	<!-- Small boxes (Stat box) -->
 	<div class="row">
     <div class="col-lg-6">
@@ -24,11 +24,10 @@
           <h4 class="box-title">Reply</h4>
         </div>
         <div class="box-body">
-					<p v-html="reply"></p>
-        </div>
-        <div class="box-footer clearfix">
-          <p v-if="valid" style="color: green;">{{message}}</p>
-          <p v-if="!valid" style="color: red;">{{message}}</p>
+					<p v-if="valid" style="color: green;">{{reply}}</p>
+          <p v-if="!valid" style="color: red;">{{reply}}</p>
+          <p v-if="sentiment >= 0" style="color: green;">{{sentiment}}</p>
+          <p v-if="sentiment < 0" style="color: red;">{{sentiment}}</p>
         </div>
       </div>
     </div>
@@ -37,34 +36,30 @@
 
 <script>  
   var text = new Vue({
-    el: "#text",
+    el: "#classification",
     data: {
       text: ``,
       reply: ``,
-      valid: true,
-      message: ``
+      sentiment: 0,
+      valid: true
     },
     methods: {
       input() {
         let vm = this
-        axios.post('api/v1/ai/input', { input: vm.text },
+        axios.post('api/v1/ai/classification', { text: vm.text },
         {
           headers: {
             Authorization : `Bearer ${localStorage.getItem("token")}`
           }
         })
         .then((res) => {
-          let data = res.data.data, message = res.data.message
-          vm.message = message
-          vm.reply = data.reply
-          vm.valid = true
-        })
-        .catch((error) => {
-          // handle error
-          vm.valid = false
-          vm.reply = ''
-          vm.message = error.response.data.message
-          location.replace("/login")
+          let data = res.data.data
+          vm.reply = data.class
+          vm.sentiment = data.sentiment.toFixed(2)
+          if (vm.reply.includes("Negative"))
+            vm.valid=false
+          else
+            vm.valid=true
         })
       }
     }
