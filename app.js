@@ -21,27 +21,32 @@ app.get('/clock', (_req, res) => {
 
 app.get('/voice', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Speech to Text", page: "machine-learning/voice" })
+  res.render('index', { title: "Speech to Text", page: "speech/voice" })
+})
+
+app.get('/text', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
+  res.render('index', { title: "Text to Speech", page: "speech/text" })
 })
 
 app.get('/tomorse', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Text to morse", page: "machine-learning/tomorse" })
+  res.render('index', { title: "Text to morse", page: "nlp/tomorse" })
 })
 
 app.get('/morse', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Morse to text", page: "machine-learning/morse" })
+  res.render('index', { title: "Morse to text", page: "nlp/morse" })
 })
 
 app.get('/classification', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Image Classification", page: "machine-learning/classification" })
+  res.render('index', { title: "Image Classification", page: "vision/classification" })
 })
 
 app.get('/imagegenerator', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Image Generator", page: "machine-learning/imagegenerator" })
+  res.render('index', { title: "Image Generator", page: "nlp/imagegenerator" })
 })
 
 app.get('/', (_req, res) => {

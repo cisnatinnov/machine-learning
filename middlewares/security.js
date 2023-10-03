@@ -160,7 +160,7 @@ const setWithExpiry = (key, value) => {
 }
 
 function moreThanOneDayAgo(now, date) {
-  const DAY = 1000 * 60 * 60 * 8;
+  const DAY = 1000 * 60 * 60 * 24;
   const dayAgo = now - DAY;
 
   return date < dayAgo;

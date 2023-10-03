@@ -1,7 +1,7 @@
 const http = require("http");
 const app = require("./app");
 const server = http.createServer(app);
-
+const gTTS = require('gtts');
 require('dotenv').config()
 
 let port = process.env.PORT || 7015
@@ -43,6 +43,15 @@ const io = socketio(server)
 
 io.on("connection", (socket) => {
   console.log("new connection")
+
+  socket.on("sendText", (msg, cb) => {
+    const  gtts = new gTTS(msg, 'en');
+    gtts.save(`public/${msg}.mp3`, (err) => {
+      if(err) return io.emit("message", err)
+      io.emit("message", "Text to speech converted!")
+    })
+    cb()
+  })
 
   socket.on("sendMessage", (msg, cb) => {
     openai
