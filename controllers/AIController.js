@@ -30,7 +30,7 @@ app.post('/input', celebrate({body: inputSchema}), async (req, res) => {
       messages: [{ role: "user", content: input }],
     })
     .then((resp) => {
-      response.success(res, '', { reply: resp.data.choices[0].message.content});
+      response.success(res, 'Replied', { reply: resp.data.choices[0].message.content});
     })
     .catch((e) => {
       console.log(e.message)
