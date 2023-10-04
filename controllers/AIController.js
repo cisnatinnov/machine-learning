@@ -53,7 +53,7 @@ app.post('/text', celebrate({body: textSchema}), async (req, res) => {
     })
     .catch((e) => {
       console.log(e.message)
-      response.badRequest(res, `Might be content pornography or pornoaction`);
+      response.badRequest(res, e.message);
     });
 })
 

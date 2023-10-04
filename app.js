@@ -31,22 +31,22 @@ app.get('/text', (_req, res) => {
 
 app.get('/input', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Text to Speech", page: "nlp/text" })
+  res.render('index', { title: "Question and Answer", page: "nlp/text" })
 })
 
 app.get('/classification', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Text classification", page: "nlp/classification" })
+  res.render('index', { title: "Text Classification", page: "nlp/classification" })
 })
 
 app.get('/tomorse', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Text to morse", page: "nlp/tomorse" })
+  res.render('index', { title: "Text to Morse", page: "nlp/tomorse" })
 })
 
 app.get('/morse', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Morse to text", page: "nlp/morse" })
+  res.render('index', { title: "Morse to Text", page: "nlp/morse" })
 })
 
 app.get('/recognition', (_req, res) => {
