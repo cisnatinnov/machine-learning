@@ -49,9 +49,9 @@ app.get('/morse', (_req, res) => {
   res.render('index', { title: "Morse to Text", page: "nlp/morse" })
 })
 
-app.get('/recognition', (_req, res) => {
+app.get('/classifier', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
-  res.render('index', { title: "Image Recognition", page: "vision/recognition" })
+  res.render('index', { title: "Image Classifier", page: "vision/classifier" })
 })
 
 app.get('/imagegenerator', (_req, res) => {

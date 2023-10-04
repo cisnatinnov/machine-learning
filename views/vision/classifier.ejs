@@ -1,5 +1,5 @@
 <!-- Main content -->
-<section class="content" id="lists">
+<section class="content" id="classifier">
 	<!-- Small boxes (Stat box) -->
 	<div class="row">
       <div class="col-lg-6">
@@ -13,7 +13,7 @@
             </div>
 				<div class="box-footer clearfix">
                <div class="pull-right">
-                  <button class="btn btn-success" id="triggerClassify"> Classify the image </button>
+                  <button class="btn btn-primary" id="triggerClassify"><i class="ion ion-image"></i> Classify the image </button>
                </div>
             </div>
          </div>
@@ -67,8 +67,7 @@
             image_classifier.predict(show_image, function (err, outputs) {
                if (err) {
                   return err;
-               } else {
-               
+               } else {               
                   // show the output
                   output.innerText = outputs[0].label;
                }
