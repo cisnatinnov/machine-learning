@@ -54,6 +54,11 @@ app.get('/classifier', (_req, res) => {
   res.render('index', { title: "Image Classifier", page: "vision/classifier" })
 })
 
+app.get('/face', (_req, res) => {
+  if (!getWithExpiry('email')) return res.redirect('/login')
+  res.render('index', { title: "Face Classifier", page: "vision/faceclassifier" })
+})
+
 app.get('/imagegenerator', (_req, res) => {
   if (!getWithExpiry('email')) return res.redirect('/login')
   res.render('index', { title: "Image Generator", page: "nlp/imagegenerator" })

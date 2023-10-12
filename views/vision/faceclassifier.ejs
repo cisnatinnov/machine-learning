@@ -1,0 +1,72 @@
+<!-- Main content -->
+<section class="content" id="classifier">
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+    <div class="col-lg-12">
+      <div class="box">
+        <div class="box-header">
+          <h4 class="box-title">Creating the <i> Face classifier </i></h4>
+        </div>
+        <div class="box-body">
+          <video autoplay="true" id="video-webcam">
+            Your Browser Doesn't Support
+          </video>
+          <canvas id="canvas" width="600px" height="400px"></canvas>
+        </div>
+        <div class="box-footer clearfix">
+          <div class="pull-right">
+            <button class="btn btn-primary" onclick="vidOn()"><i class="ion ion-play"></i> Open </button>
+            <button class="btn btn-danger" onclick="vidOff()"><i class="ion ion-stop"></i> Close </button>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  // seleksi elemen video
+  var video = document.querySelector("#video-webcam");
+
+  // minta izin user
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+  // jika user memberikan izin
+  if (navigator.getUserMedia) {
+    // jalankan fungsi handleVideo, dan videoError jika izin ditolak
+    navigator.getUserMedia({ video: true }, handleVideo, videoError);
+  }
+
+  // fungsi ini akan dieksekusi jika  izin telah diberikan
+  function handleVideo(stream) {
+    video.srcObject = stream;
+  }
+
+  // fungsi ini akan dieksekusi kalau user menolak izin
+  function videoError(e) {
+    // do something
+    alert("Allow to use webcam for demo!")
+  }
+
+  function vidOn() {
+    let mediaDevices = navigator.mediaDevices;
+    mediaDevices
+    .getUserMedia({
+      video: true
+    })
+    .then((stream) => {
+
+      // Changing the source of video to current stream.
+      video.srcObject = stream;
+      video.addEventListener("loadedmetadata", () => {
+        video.play();
+      });
+    })
+    .catch(alert);
+  }
+
+  function vidOff() {
+    const mediaStream = video.srcObject;
+    const tracks = mediaStream.getTracks();
+    tracks.forEach(track => track.stop())
+  }
+</script>
