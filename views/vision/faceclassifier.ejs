@@ -11,7 +11,6 @@
           <video autoplay="true" id="video-webcam">
             Your Browser Doesn't Support
           </video>
-          <canvas id="canvas" width="600px" height="400px"></canvas>
         </div>
         <div class="box-footer clearfix">
           <div class="pull-right">
@@ -48,20 +47,7 @@
   }
 
   function vidOn() {
-    let mediaDevices = navigator.mediaDevices;
-    mediaDevices
-    .getUserMedia({
-      video: true
-    })
-    .then((stream) => {
-
-      // Changing the source of video to current stream.
-      video.srcObject = stream;
-      video.addEventListener("loadedmetadata", () => {
-        video.play();
-      });
-    })
-    .catch(alert);
+    navigator.getUserMedia({ video: true }, handleVideo, videoError);
   }
 
   function vidOff() {
