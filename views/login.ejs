@@ -12,9 +12,9 @@
       <p v-if="isValid" style="color: green;">{{ message }}</p>
       <p v-if="!isValid" style="color: red;">{{ message }}</p>
       <label>Email</label>
-      <input type="email" class="login_form" v-model="email">
+      <input type="email" class="login_form" v-model="email" required>
       <label>Password</label>
-      <input type="password" class="login_form" v-model="password"><br>
+      <input type="password" class="login_form" v-model="password" required><br>
       <input type="submit" class="login_button" value="LOGIN" @click="login">
     </div>  
   </body>

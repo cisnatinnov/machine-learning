@@ -159,7 +159,7 @@ const setWithExpiry = (key, value) => {
 	localStorage.setItem(key, JSON.stringify(item))
 }
 
-function moreThanOneDayAgo(now, date) {
+function moreThan8Hours(now, date) {
   const DAY = 1000 * 60 * 60 * 8;
   const dayAgo = now - DAY;
 
@@ -173,7 +173,7 @@ const getWithExpiry = (key) => {
     const item = JSON.parse(itemStr)
     const now = Date.now()
     const expiry = item.expiry
-    const expired = moreThanOneDayAgo(now, expiry)
+    const expired = moreThan8Hours(now, expiry)
     console.log(now, expiry)
     // compare the expiry time of the item with the current time
     if (expired) {
