@@ -88,59 +88,59 @@
   let startPredicting = false;
 
 
-  function preload() {
-    objectDetector = ml5.objectDetector('cocossd');
-  }
+  // function preload() {
+  //   objectDetector = ml5.objectDetector('cocossd');
+  // }
 
-  function setup() {
-    objectDetector.detect(video, gotResult);
-  }
+  // function setup() {
+  //   objectDetector.detect(video, gotResult);
+  // }
 
-  function gotResult(error, results) {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log(results);
-      drawResults(results);
-    }
-    window.requestAnimationFrame(setup);
-  }
+  // function gotResult(error, results) {
+  //   if (error) {
+  //     console.error(error);
+  //   } else {
+  //     console.log(results);
+  //     drawResults(results);
+  //   }
+  //   window.requestAnimationFrame(setup);
+  // }
 
-  var children = [];
+  // var children = [];
 
-  function drawResults(results) {
-    // Remove any highlighting we did previous frame.
-    for (let i = 0; i < children.length; i++) {
-      liveView.removeChild(children[i]);
-    }
-    children.splice(0);
+  // function drawResults(results) {
+  //   // Remove any highlighting we did previous frame.
+  //   for (let i = 0; i < children.length; i++) {
+  //     liveView.removeChild(children[i]);
+  //   }
+  //   children.splice(0);
 
-    for (let n = 0; n < results.length; n++) {
-      const r = Math.random()*256|0;
-      const g = Math.random()*256|0;
-      const b = Math.random()*256|0;
-      if (results[n].confidence > 0.66) {
-        const p = document.createElement('p');
-        p.innerText = `${results[n].label} - with
-            ${Math.round(parseFloat(results[n].confidence) * 100)}
-            % confidence.`
-        p.style = `stroke: 0 0 0; stroke-weight: 2px;
-                  position: absolute; z-index: 2; padding: 5px;
-                  font-size: 12px; color: rgba(${r}, ${g}, ${b}, 0)
-                  border: 1px dashed rgba(255, 255, 255, 0.7)
-                  background-color: rgba(255, 111, 0, 0.85);`
-        const highlighter = document.createElement('div');
-        highlighter.setAttribute('class', 'highlighter');
-        highlighter.style = `width: ${results[n].width}px;
-                            height: ${results[n].height}px;
-                            stroke: ${r} ${g} ${b}; stroke-weight: 3px;
-                            margin: ${results[n].x} ${results[n].y} ${results[n].width} ${results[n].height};`
-        liveView.appendChild(highlighter);
-        liveView.appendChild(p);
-        children.push(p);
-      }
-    }
-  }
+  //   for (let n = 0; n < results.length; n++) {
+  //     const r = Math.random()*256|0;
+  //     const g = Math.random()*256|0;
+  //     const b = Math.random()*256|0;
+  //     if (results[n].confidence > 0.66) {
+  //       const p = document.createElement('p');
+  //       p.innerText = `${results[n].label} - with
+  //           ${Math.round(parseFloat(results[n].confidence) * 100)}
+  //           % confidence.`
+  //       p.style = `stroke: 0 0 0; stroke-weight: 2px;
+  //                 position: absolute; z-index: 2; padding: 5px;
+  //                 font-size: 12px; color: rgba(${r}, ${g}, ${b}, 0)
+  //                 border: 1px dashed rgba(255, 255, 255, 0.7)
+  //                 background-color: rgba(255, 111, 0, 0.85);`
+  //       const highlighter = document.createElement('div');
+  //       highlighter.setAttribute('class', 'highlighter');
+  //       highlighter.style = `width: ${results[n].width}px;
+  //                           height: ${results[n].height}px;
+  //                           stroke: ${r} ${g} ${b}; stroke-weight: 3px;
+  //                           margin: ${results[n].x} ${results[n].y} ${results[n].width} ${results[n].height};`
+  //       liveView.appendChild(highlighter);
+  //       liveView.appendChild(p);
+  //       children.push(p);
+  //     }
+  //   }
+  // }
 
   const updateStatus = () => {
     let texts = []
