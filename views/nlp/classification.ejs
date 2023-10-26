@@ -26,8 +26,8 @@
         <div class="box-body">
 					<p v-if="valid" style="color: green;">{{reply}}</p>
           <p v-if="!valid" style="color: red;">{{reply}}</p>
-          <p v-if="sentiment >= 0" style="color: green;">{{sentiment}}</p>
-          <p v-if="sentiment < 0" style="color: red;">{{sentiment}}</p>
+          <p v-if="sentiment >= 0" style="color: green;">Sentiment {{sentiment}}</p>
+          <p v-if="sentiment < 0" style="color: red;">Sentiment {{sentiment}}</p>
         </div>
       </div>
     </div>
