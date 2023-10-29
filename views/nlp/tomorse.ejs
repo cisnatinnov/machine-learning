@@ -59,6 +59,7 @@
           // handle error
           vm.valid = false
           vm.message = error.response.data.message
+          if (vm.message.name) location.replace('/login')
         })
       }
     }

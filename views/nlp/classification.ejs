@@ -65,6 +65,11 @@
             vm.reply = "Positive Word"
           }
         })
+        .catch((e) => {
+          vm.valid = false
+          vm.reply = error.response.data.message
+          if (vm.message.name) location.replace('/login')
+        })
       }
     }
   })
