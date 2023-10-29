@@ -48,6 +48,7 @@
     },
     methods: {
       generate() {
+        if (!localStorage.getItem('token')) location.replace('/login')
         socket.emit("sendText", this.text, (error) => {
           if (error) {
             this.valid = false

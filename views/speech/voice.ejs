@@ -41,14 +41,17 @@
   recognition.continuous = true;
 
   startBtn.addEventListener("click", () => {
+    if (!localStorage.getItem('token')) location.replace('/login')
     recognition.start();
   });
 
   stopBtn.addEventListener("click", () => {
+    if (!localStorage.getItem('token')) location.replace('/login')
     recognition.stop();
   });
 
   recognition.addEventListener("result", (event) => {
+    if (!localStorage.getItem('token')) location.replace('/login')
     const transcript = Array.from(event.results)
       .map((result) => result[0].transcript)
       .join("");

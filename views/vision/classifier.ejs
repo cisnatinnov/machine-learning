@@ -62,6 +62,8 @@
          
          // classify the image when the user clicks the button
          triggerClassify.onclick = function (e) {
+            e.preventDefault();
+            if (!localStorage.getItem('token')) location.replace('/login')
          
             // predict the image using the model
             image_classifier.predict(show_image, function (err, outputs) {
