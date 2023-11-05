@@ -20,52 +20,82 @@ app.get('/clock', (_req, res) => {
 })
 
 app.get('/voice', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Speech to Text", page: "speech/voice" })
 })
 
 app.get('/text', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Text to Speech", page: "speech/text" })
 })
 
 app.get('/input', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Question and Answer", page: "nlp/text" })
 })
 
 app.get('/classification', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Text Classification", page: "nlp/classification" })
 })
 
 app.get('/tomorse', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Text to Morse", page: "nlp/tomorse" })
 })
 
 app.get('/morse', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Morse to Text", page: "nlp/morse" })
 })
 
 app.get('/classifier', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Image Classifier", page: "vision/classifier" })
 })
 
 app.get('/face', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Face Classifier", page: "vision/faceclassifier" })
 })
 
 app.get('/imagegenerator', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Image Generator", page: "nlp/imagegenerator" })
 })
 
 app.get('/', (_req, res) => {
-  if (!getWithExpiry('email')) return res.redirect('/login')
+  if (!getWithExpiry('email')) {
+    localStorage.clear()
+    return res.redirect('/login')
+  }
   res.render('index', { title: "Home", page: "home" })
 })
 
